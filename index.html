@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Vitrine de demonstração da SIMPLES COMUNICAÇÃO para lojas de carro.">
+<meta name="robots" content="noindex">
+<title>Vitrine Brisa Seminovos</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: vitrine escura de pátio, cartões brancos como fichas de carro, cobre da marca só onde há ação */
+:root{
+--preto:#0B0B0C; --grafite:#161618; --painel:#1C1C1F; --borda:#2C2C30; --borda-clara:#3D3D42;
+--cobre:#0E7C86; --cobre-cta:#0B6F78; --cobre-escuro:#085A61; --cobre-fundo:#0A646C; --cobre-claro:#7FD3DA; --cobre-lavado:#E1F2F3;
+--branco:#FFFFFF; --texto-claro:#D6D1CC; --texto-apagado:#A39D97;
+--tinta:#17161A; --tinta-sec:#5E5853; --linha:#E4DED8;
+--placa:#003399;
+--display:'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+--fonte:'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--preto);color:var(--branco);font-family:var(--fonte);font-size:16px;line-height:1.45}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--preto)}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:3px solid var(--cobre-claro);outline-offset:2px;border-radius:8px}
+h1,h2,h3{text-wrap:balance}
+.aviso{background:var(--grafite);color:var(--texto-apagado);font-size:12.5px;padding-block:8px;text-align:center;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* topo */
+header.topo{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px;padding:10px 10px 10px 16px;min-height:64px;background:var(--grafite);border:1px solid var(--borda);border-radius:18px}
+.marca-loja{display:flex;align-items:center;text-decoration:none;min-width:0}
+.marca-loja img{height:30px;width:auto;display:block;max-width:100%}
+.menu{display:flex;align-items:center;gap:4px}
+.menu a{text-decoration:none;font-weight:600;font-size:16px;color:var(--branco);padding:8px 12px;border-radius:12px;white-space:nowrap}
+.menu .link{display:none}
+.menu .link:hover{background:rgba(255,255,255,.08)}
+.menu .contato-pill{background:var(--cobre-cta);font-size:15px;padding:10px 16px}
+.menu .contato-pill:hover{background:var(--cobre-escuro)}
+.menu .ig{display:flex;padding:6px}
+.menu .ig svg{width:26px;height:26px}
+@media (min-width:880px){
+header.topo{gap:40px;margin-top:20px;padding:14px 18px 14px 26px;min-height:84px}
+.marca-loja img{height:40px}
+.menu{gap:6px}
+.menu .link{display:inline-block;font-size:16.5px}
+.menu .contato-pill{font-size:16.5px;padding:11px 22px;margin-left:8px}
+.menu .ig{margin-left:16px}
+.menu .ig svg{width:30px;height:30px}
+}
+
+/* abertura */
+.hero{padding:40px 0 28px}
+.selo-local{font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cobre-claro);margin-bottom:14px}
+.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(36px,9.5vw,64px);line-height:1.04;letter-spacing:-.025em;max-width:14ch}
+.hero h1 mark,.marca-texto mark{background:var(--cobre);color:var(--branco);padding:0 .14em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.hero p.sub{margin-top:18px;font-size:17px;color:var(--texto-claro);max-width:46ch}
+.estoque-info{margin-top:26px;display:grid;gap:10px;max-width:560px}
+.total{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cobre-claro);font-variant-numeric:tabular-nums}
+.busca{position:relative}
+.busca svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--texto-apagado);pointer-events:none}
+.busca input{width:100%;font:inherit;font-size:16px;color:var(--branco);background:var(--grafite);border:1.5px solid var(--borda-clara);border-radius:14px;padding:13px 18px 13px 46px;outline:none;-webkit-appearance:none;appearance:none}
+.busca input::placeholder{color:var(--texto-apagado)}
+.busca input:focus{border-color:var(--cobre)}
+
+/* filtros */
+.filtros{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--preto);padding-block:10px 12px;border-bottom:1px solid var(--borda)}
+.linha-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
+.linha-chips::-webkit-scrollbar{display:none}
+.linha-chips + .linha-chips{margin-top:8px}
+.chip{flex:none;font-size:15px;font-weight:600;padding:9px 15px;border-radius:12px;background:transparent;border:1.5px solid var(--borda-clara);color:var(--branco);white-space:nowrap}
+.chip:hover{border-color:var(--cobre)}
+.chip[aria-pressed="true"]{background:var(--cobre-cta);border-color:var(--cobre-cta)}
+.barra{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 0 8px;font-size:15px;color:var(--texto-apagado)}
+.barra select{font:inherit;color:var(--branco);background:var(--grafite);border:1.5px solid var(--borda-clara);border-radius:12px;padding:6px 10px;margin-left:6px}
+#contagem{font-variant-numeric:tabular-nums}
+
+/* cartões */
+.grade{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;padding:8px 0 32px}
+@media (min-width:680px){.grade{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1020px){.grade{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.carro[hidden],.vazio[hidden]{display:none!important}
+.carro{background:var(--branco);color:var(--tinta);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;scroll-margin-top:170px;transition:box-shadow .3s}
+.carro.realce{box-shadow:0 0 0 4px var(--cobre-claro)}
+.fotos{position:relative;aspect-ratio:4/3;max-width:100%;background:#111113}
+.trilho{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.trilho::-webkit-scrollbar{display:none}
+.slide{flex:none;width:100%;height:100%;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;cursor:zoom-in;padding:0}
+.slide img{width:100%;height:100%;object-fit:cover;display:block}
+.contador{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.62);color:#fff;font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:999px;pointer-events:none;font-variant-numeric:tabular-nums}
+.pontos{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:6px;pointer-events:none}
+.pontos i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.5)}
+.pontos i.on{background:#fff}
+.seta-card{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.94);color:var(--cobre-cta);font-size:26px;font-weight:700;line-height:1;display:flex;align-items:center;justify-content:center;padding-bottom:3px;box-shadow:0 2px 10px rgba(0,0,0,.25);z-index:2}
+.seta-card.ant{left:10px}.seta-card.prox{right:10px}
+.seta-card[hidden]{display:none}
+.corpo{position:relative;padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
+.selos{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;padding-right:46px}
+.selos span{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--cobre-lavado);color:var(--cobre-escuro)}
+.selos .s-fipe{background:var(--cobre-cta);color:#fff}
+.selos .s-oferta{background:var(--tinta);color:#fff}
+.partilhar{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;background:#F3F0ED;color:var(--tinta);display:flex;align-items:center;justify-content:center}
+.partilhar:hover{background:#E7E2DD}
+.partilhar svg{width:18px;height:18px}
+.fab{font-size:14px;color:var(--tinta-sec);font-weight:600;padding-right:46px}
+.modelo{font-family:var(--display);font-weight:700;font-size:25px;line-height:1.08;letter-spacing:-.02em;margin-top:2px;padding-right:46px}
+.versao{font-size:15px;color:var(--tinta-sec);margin-top:4px}
+.placa{display:inline-flex;flex-direction:column;align-self:flex-start;margin-top:12px;border:1.6px solid var(--tinta);border-radius:6px;overflow:hidden;background:#fff;min-width:150px}
+.placa .banda{background:var(--placa);color:#fff;font-size:9px;font-weight:700;letter-spacing:.22em;text-align:center;padding:2px 8px 1px}
+.placa .chars{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:.04em;padding:3px 12px 4px;text-align:center;white-space:nowrap;font-variant-numeric:tabular-nums}
+.placa .chars small{font-size:14px;font-weight:600;letter-spacing:.02em}
+.preco{font-family:var(--display);font-weight:700;font-size:32px;line-height:1;margin-top:14px;letter-spacing:-.02em;color:var(--tinta);font-variant-numeric:tabular-nums}
+.desc{font-size:15px;line-height:1.5;color:var(--tinta-sec);margin-top:12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.desc.aberta{display:block;-webkit-line-clamp:unset}
+.mais{align-self:flex-start;margin-top:4px;font-size:14.5px;font-weight:700;color:var(--cobre-cta);text-decoration:underline;text-underline-offset:3px;padding:2px 0}
+.mais[hidden]{display:none}
+.espaco{flex:1;min-height:16px}
+.zap{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--cobre-cta);color:#fff;text-decoration:none;font-weight:700;font-size:15px;padding:13px 16px;border-radius:14px}
+.zap:hover{background:var(--cobre-escuro)}
+.zap svg{width:18px;height:18px;flex:none}
+.carro .zap{font-size:14px;padding:13px 12px;gap:7px}
+.carro .zap svg{width:17px;height:17px}
+.vazio{grid-column:1/-1;background:var(--painel);border:1px dashed var(--borda-clara);border-radius:22px;padding:28px 20px;text-align:center;color:#fff}
+.vazio p{font-size:17px;max-width:40ch;margin:0 auto 14px}
+.vazio .zap{display:inline-flex}
+
+/* pedido */
+.pedido{margin:4px 0 8px;background:var(--grafite);border:1px solid var(--borda);border-radius:22px;padding:26px 22px;display:grid;gap:18px}
+.pedido h3{font-family:var(--display);font-size:24px;line-height:1.15;font-weight:700;letter-spacing:-.01em}
+.pedido p{color:var(--texto-claro);margin-top:8px;font-size:16px;max-width:52ch}
+@media (min-width:880px){.pedido{grid-template-columns:minmax(0,1fr) auto;align-items:center;padding:30px 36px}.pedido .zap{padding:14px 28px}}
+
+/* oferta especial */
+.destaque{background:var(--painel);margin-top:28px;padding-block:44px 52px}
+.dest-h{font-family:var(--display);font-weight:700;font-size:clamp(30px,7vw,46px);line-height:1.08;letter-spacing:-.02em;margin-bottom:20px}
+.dest-h mark{background:var(--cobre);color:#fff;padding:0 .12em}
+.dest-box{display:grid;background:#fff;border-radius:24px;overflow:hidden}
+.dest-card{background:#fff;color:var(--tinta);padding:22px 20px;display:flex;flex-direction:column;min-width:0}
+.dest-card .fab{font-size:15px;padding-right:0}
+.dest-card h3{font-family:var(--display);font-weight:700;font-size:clamp(32px,7vw,44px);line-height:1.02;letter-spacing:-.025em;margin-top:2px}
+.dest-ano{font-size:18px;margin-top:8px;font-variant-numeric:tabular-nums}
+.dest-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.dest-tags span{font-size:14px;font-weight:600;padding:6px 12px;border-radius:999px;background:#F1EEEB}
+.dest-por{margin-top:22px;font-size:17px;color:var(--tinta-sec)}
+.dest-preco{font-family:var(--display);font-weight:700;font-size:clamp(42px,10vw,58px);line-height:1;letter-spacing:-.025em;margin-top:4px;font-variant-numeric:tabular-nums}
+.dest-fipe{margin-top:12px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;font-size:14px;color:var(--tinta-sec)}
+.dest-fipe span{background:var(--cobre-cta);color:#fff;font-weight:700;font-size:13.5px;padding:5px 12px;border-radius:999px}
+.dest-nota{font-size:14px;color:var(--tinta-sec);margin-top:10px}
+.dest-loja{display:flex;gap:12px;align-items:flex-start;margin-top:18px;padding:14px 16px;border:1px solid var(--linha);border-radius:16px;text-decoration:none;color:var(--tinta)}
+.dest-loja:hover{border-color:var(--cobre)}
+.dest-loja svg{width:24px;height:24px;flex:none;color:var(--cobre-cta);margin-top:1px}
+.dest-loja b{display:block;font-size:16px}
+.dest-loja span{font-size:14.5px;color:var(--tinta-sec)}
+.dest-card .zap{margin-top:18px}
+.dest-ver{margin-top:10px;width:100%;padding:13px 16px;border-radius:14px;background:var(--cobre-lavado);color:var(--cobre-escuro);font-weight:700;font-size:15px}
+.dest-ver:hover{background:#CFEBED}
+@media (min-width:880px){
+.destaque{margin-top:48px;padding-block:76px 84px}
+.dest-h{margin-bottom:28px}
+.dest-box{grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);align-items:center}
+.dest-card{padding:40px 44px}
+}
+
+/* diferenciais */
+.dif{padding-block:56px 56px}
+.dif h2{font-family:var(--display);font-weight:700;font-size:clamp(30px,7vw,46px);line-height:1.08;letter-spacing:-.02em;margin-bottom:26px}
+.dif h2 mark,.contato h2 mark{background:var(--cobre);color:#fff;padding:0 .12em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.faixa{list-style:none;background:var(--cobre-fundo);border-radius:24px;padding:12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 6px}
+.faixa li{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;padding:18px 4px;font-size:16px;line-height:1.28;color:#fff}
+.faixa li svg{width:44px;height:44px;flex:none}
+.faixa b{font-weight:700}
+.faixa .principal{grid-column:1/-1;order:-1;background:#fff;color:var(--tinta);border-radius:18px;padding:22px 16px;font-size:19px;margin-bottom:6px}
+.faixa .principal svg{color:var(--cobre-cta)}
+.faixa .principal b{color:var(--cobre-cta)}
+@media (min-width:880px){
+.dif{padding-block:88px 84px}
+.dif h2{margin-bottom:52px}
+.faixa{grid-template-columns:repeat(5,minmax(0,1fr));align-items:center;border-radius:40px;padding:0 20px;gap:0}
+.faixa li{padding:44px 12px;font-size:18px;gap:18px}
+.faixa li svg{width:60px;height:60px}
+.faixa .principal{grid-column:auto;order:0;align-self:stretch;justify-content:center;margin:-30px 4px;border-radius:32px;padding:40px 18px;font-size:19.5px}
+}
+
+/* contato */
+.contato{background:#111113;color:#fff}
+.contato > .wrap{display:grid;gap:40px;padding-block:44px 48px}
+.logo-rodape{height:52px;width:auto;display:block;max-width:100%}
+.endereco-loja{margin-top:22px;font-size:18px;line-height:1.55;color:var(--texto-claro)}
+.endereco-loja b{color:var(--cobre-claro);font-weight:700}
+.contato .zap{margin-top:24px;max-width:340px;font-size:16px;padding:15px 22px}
+.contato h2{font-family:var(--display);font-weight:700;font-size:clamp(38px,9vw,58px);line-height:1.08;letter-spacing:-.02em}
+.info{list-style:none;margin-top:28px;display:grid;gap:18px;font-size:17px;line-height:1.45}
+.info a{display:flex;gap:14px;align-items:flex-start;text-decoration:none;color:#fff}
+.info a:hover span{text-decoration:underline;text-underline-offset:3px}
+.info svg{width:28px;height:28px;flex:none;color:var(--cobre-claro)}
+.direitos{background:var(--cobre-fundo)}
+.direitos .wrap{padding-block:22px}
+.direitos p{font-family:var(--display);font-weight:700;font-size:clamp(17px,2.4vw,24px);line-height:1.25}
+.direitos small{display:block;margin-top:6px;font-size:13px;color:rgba(255,255,255,.86)}
+@media (max-width:679px){.direitos .wrap{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}}
+@media (min-width:880px){.logo-rodape{height:60px}.contato > .wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;padding-block:72px}}
+
+/* botão fixo */
+.fixo{position:fixed;left:calc(12px + env(safe-area-inset-left,0px));right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:8;background:#fff;color:var(--cobre-cta);box-shadow:0 8px 28px rgba(0,0,0,.55)}
+.fixo:hover{background:var(--cobre-lavado)}
+@media (min-width:680px){.fixo{left:auto;right:calc(24px + env(safe-area-inset-right,0px));bottom:calc(24px + env(safe-area-inset-bottom,0px));width:auto;padding:14px 24px}}
+
+/* fotos ampliadas */
+.lupa{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.96);display:none;flex-direction:column;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+.lupa.aberta{display:flex}
+.lupa-topo{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;color:#fff;font-size:15px;font-weight:600}
+.lupa-topo button{color:#fff;font-size:15px;padding:8px 14px;border:1px solid rgba(255,255,255,.35);border-radius:12px}
+.lupa-trilho{flex:1;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;min-height:0}
+.lupa-trilho::-webkit-scrollbar{display:none}
+.lupa-slide{flex:none;width:100%;height:100%;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:pan-x pinch-zoom}
+.lupa-slide > *{max-width:100%;max-height:100%;transition:transform .2s ease;cursor:zoom-in}
+.lupa-slide img{object-fit:contain}
+.lupa-slide .zoom{transform:scale(2.2);cursor:zoom-out}
+.lupa-base{padding:12px 14px 18px}
+.lupa-base .zap{font-size:14px}
+.setas{display:none}
+@media (min-width:680px){
+.setas{display:flex;position:absolute;top:50%;left:0;right:0;justify-content:space-between;padding:0 14px;pointer-events:none}
+.setas button{pointer-events:auto;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:22px}
+}
+.aviso-copiado{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#fff;color:var(--tinta);font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px;box-shadow:0 8px 28px rgba(0,0,0,.5);z-index:30;opacity:0;transition:opacity .2s;pointer-events:none}
+.aviso-copiado.on{opacity:1}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<div class="aviso">Vitrine de demonstração feita pela SIMPLES. Loja fictícia, fotos de divulgação dos fabricantes, preços e valores FIPE ilustrativos.</div>
+<div class="wrap">
+  <header class="topo">
+    <a class="marca-loja" href="#ofertas" aria-label="Brisa Seminovos, ir para as ofertas"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNTciIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCAyMzYgNjAiPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjI3IiBmaWxsPSIjMEU3Qzg2Ii8+PHBhdGggZD0iTTE0IDI1YzUtNCAxMC00IDE2IDBzMTEgNCAxNiAwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy42IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMTQgMzZjNS00IDEwLTQgMTYgMHMxMSA0IDE2IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjx0ZXh0IHg9IjY4IiB5PSIzNCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzMCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZiIgbGV0dGVyLXNwYWNpbmc9IjEiPkJSSVNBPC90ZXh0Pjx0ZXh0IHg9IjY5IiB5PSI1MiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMi41IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjOUZEREUyIiBsZXR0ZXItc3BhY2luZz0iNC4yIj5TRU1JTk9WT1M8L3RleHQ+PC9zdmc+" alt="Brisa Seminovos" width="157" height="40"></a>
+    <nav class="menu" aria-label="Menu">
+      <a class="link" href="#ofertas">Ofertas</a>
+      <a class="link" href="#contato">Financiamento</a>
+      <a class="link" href="#contato">Venda seu carro</a>
+      <a class="contato-pill" href="#contato">Contato</a>
+      <a class="ig" href="#contato" aria-label="Instagram da Brisa Seminovos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r=".6" fill="currentColor"/></svg></a>
+    </nav>
+  </header>
+  <section class="hero">
+    <p class="selo-local">Fortaleza · Ceará</p>
+    <h1>Veículos exclusivos de <mark>todas as marcas</mark></h1>
+    <p class="sub">Todos os carros do pátio em um só lugar. Escolha o seu e fale direto com um consultor no WhatsApp.</p>
+    <div class="estoque-info">
+      <p class="total" id="total">9 carros disponíveis</p>
+      <div class="busca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input type="search" id="busca" placeholder="Buscar marca ou modelo" aria-label="Buscar marca ou modelo" autocomplete="off"></div>
+    </div>
+  </section>
+</div>
+
+<div class="area-ofertas" id="ofertas">
+  <nav class="filtros" aria-label="Filtrar carros">
+    <div class="wrap">
+      <div class="linha-chips" id="f-tipo">
+        <button class="chip" type="button" data-tipo="todos" aria-pressed="true">Todos</button>
+        <button class="chip" type="button" data-tipo="suv" aria-pressed="false">SUVs</button>
+        <button class="chip" type="button" data-tipo="eletrico" aria-pressed="false">Elétricos e híbridos</button>
+        <button class="chip" type="button" data-tipo="zero" aria-pressed="false">Zero km</button>
+      </div>
+      <div class="linha-chips" id="f-preco">
+        <button class="chip" type="button" data-preco="todos" aria-pressed="true">Qualquer preço</button>
+        <button class="chip" type="button" data-preco="0-100000" aria-pressed="false">Até R$ 100 mil</button>
+        <button class="chip" type="button" data-preco="100000-200000" aria-pressed="false">R$ 100 a 200 mil</button>
+        <button class="chip" type="button" data-preco="200000-99999999" aria-pressed="false">Acima de R$ 200 mil</button>
+      </div>
+    </div>
+  </nav>
+  <main class="wrap">
+    <div class="barra">
+      <span id="contagem" aria-live="polite">9 carros</span>
+      <label for="ordem">Ordenar<select id="ordem">
+        <option value="recentes">Mais recentes</option>
+        <option value="preco-desc">Maior preço</option>
+        <option value="preco-asc">Menor preço</option>
+        <option value="ano-desc">Mais novos</option>
+        <option value="km-asc">Menos rodados</option>
+      </select></label>
+    </div>
+    <div class="grade" id="grade"></div>
+    <div class="pedido">
+      <div><h3>Não encontrou o carro que procura?</h3><p>Diga qual modelo você quer e um consultor avisa quando chegar um no pátio. Tem carro para dar na troca? A avaliação é feita na hora.</p></div>
+      <a class="zap" id="zap-pedido" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3a.5.5 0 0 0 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3Z"/></svg>Pedir pelo WhatsApp</a>
+    </div>
+  </main>
+</div>
+
+<section class="destaque" id="destaque" aria-labelledby="dest-titulo">
+  <div class="wrap">
+    <h2 class="dest-h">Oferta <mark>Especial</mark></h2>
+    <div class="dest-box">
+      <div class="fotos" id="dest-fotos"><div class="trilho"></div><div class="pontos"></div><span class="contador"></span><button class="seta-card ant" type="button" aria-label="Foto anterior" hidden>‹</button><button class="seta-card prox" type="button" aria-label="Próxima foto">›</button></div>
+      <div class="dest-card">
+        <p class="fab">Jeep</p>
+        <h3 id="dest-titulo">Commander Overland</h3>
+        <p class="dest-ano">2023 · 52.000 km</p>
+        <div class="dest-tags"><span>2.0 turbodiesel</span><span>Automático</span><span>4x4</span><span>7 lugares</span></div>
+        <p class="dest-por">Por</p><p class="dest-preco">R$ 219.900</p>
+        <p class="dest-fipe"><span>R$ 12.100 abaixo da FIPE</span>FIPE ilustrativa: R$ 232.000</p>
+        <p class="dest-nota">Financiamento facilitado e troca avaliada na hora. Condições direto com o consultor.</p>
+        <a class="dest-loja" href="#contato"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 43s13-12.5 13-23a13 13 0 0 0-26 0c0 10.5 13 23 13 23z"/><circle cx="24" cy="20" r="4.5"/></svg><div><b>Brisa Seminovos</b><span>Aldeota, Fortaleza/CE</span></div></a>
+        <a class="zap" id="dest-zap" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3a.5.5 0 0 0 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3Z"/></svg>Quero esta oferta</a>
+        <button class="dest-ver" type="button">Ver todas as fotos</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dif" id="diferenciais" aria-labelledby="dif-titulo">
+  <div class="wrap">
+    <h2 id="dif-titulo">Por que comprar na <mark>Brisa</mark></h2>
+    <ul class="faixa">
+      <li><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="24.0,3.5 28.0,6.5 32.9,5.5 35.2,9.9 40.0,11.2 40.2,16.2 44.0,19.4 42.0,24.0 44.0,28.6 40.2,31.8 40.0,36.8 35.2,38.1 32.9,42.5 28.0,41.5 24.0,44.5 20.0,41.5 15.1,42.5 12.8,38.1 8.0,36.8 7.8,31.8 4.0,28.6 6.0,24.0 4.0,19.4 7.8,16.2 8.0,11.2 12.8,9.9 15.1,5.5 20.0,6.5"/><circle cx="24" cy="24" r="12.5"/><path d="M18.5 24.5l4 4 7.5-8"/></svg><span>Veículos com <b>procedência</b>, vistoriados e revisados</span></li>
+      <li><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14h7c6 4 11 11 11 18 0 6-4 9-14.5 9S9.5 38 9.5 32c0-7 5-14 11-18z"/><path d="M20.5 14l-3-6.5c2 1 4.3 1 6.5-.5 2.2 1.5 4.5 1.5 6.5.5l-3 6.5"/><path d="M27.6 25c-.8-1.3-2.1-2-3.7-2-2 0-3.4 1.1-3.4 2.7 0 3.9 7.2 2.1 7.2 6.1 0 1.7-1.6 2.9-3.7 2.9-1.6 0-3-.7-3.8-2M24 20.8v2.2M24 33.7v2.3"/></svg><span><b>Financiamento</b> facilitado com bancos parceiros</span></li>
+      <li class="principal"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 4.5l15.5 5.8v11.4c0 10.1-6.6 17.9-15.5 21.8C15.1 39.6 8.5 31.8 8.5 21.7V10.3z"/><path d="M17 24l5 5 9-10"/></svg><span>Garantia de <b>para‑choque a para‑choque</b></span></li>
+      <li><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 17h30M31 10l7 7-7 7"/><path d="M40 31H10M17 24l-7 7 7 7"/></svg><span>Sua <b>troca</b> avaliada na hora</span></li>
+      <li><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="32" r="8.5"/><circle cx="16" cy="32" r="2.5"/><path d="M22.5 26.5L39 10M32 17l5 5M27.5 21.5l4 4"/></svg><span>Do primeiro contato à <b>entrega das chaves</b></span></li>
+    </ul>
+  </div>
+</section>
+
+<footer class="contato" id="contato">
+  <div class="wrap">
+    <div>
+      <img class="logo-rodape" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMzUiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCAyMzYgNjAiPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjI3IiBmaWxsPSIjMEU3Qzg2Ii8+PHBhdGggZD0iTTE0IDI1YzUtNCAxMC00IDE2IDBzMTEgNCAxNiAwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy42IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMTQgMzZjNS00IDEwLTQgMTYgMHMxMSA0IDE2IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjx0ZXh0IHg9IjY4IiB5PSIzNCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzMCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZiIgbGV0dGVyLXNwYWNpbmc9IjEiPkJSSVNBPC90ZXh0Pjx0ZXh0IHg9IjY5IiB5PSI1MiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSBOZXVlLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMi41IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjOUZEREUyIiBsZXR0ZXItc3BhY2luZz0iNC4yIj5TRU1JTk9WT1M8L3RleHQ+PC9zdmc+" alt="Brisa Seminovos" width="235" height="60">
+      <p class="endereco-loja"><b>Brisa Seminovos</b><br>Aldeota, Fortaleza/CE</p>
+      <a class="zap" id="zap-contato" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3a.5.5 0 0 0 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3Z"/></svg>Entre em contato</a>
+    </div>
+    <div>
+      <h2>Visite-nos ou<br><mark>Fale Conosco</mark></h2>
+      <ul class="info">
+        <li><a href="#contato"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 43s13-12.5 13-23a13 13 0 0 0-26 0c0 10.5 13 23 13 23z"/><circle cx="24" cy="20" r="4.5"/></svg><span>Aldeota,<br>Fortaleza/CE</span></a></li>
+        <li><a href="https://wa.me/5585989109914" target="_blank" rel="noopener"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 7l4 9.5-4.5 3.5c2 4.6 5.9 8.5 10.5 10.5l3.5-4.5L40 30l-1.4 6.2c-.3 1.3-1.4 2.2-2.7 2.2C21.6 38.4 9.6 26.4 9.6 12.1c0-1.3.9-2.4 2.2-2.7z"/></svg><span>(85) 98910-9914</span></a></li>
+        <li><a href="#ofertas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r=".6" fill="currentColor"/></svg><span>Instagram da loja</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="direitos"><div class="wrap"><p>© 2026 Brisa Seminovos. Todos os direitos reservados.</p><small>Vitrine desenvolvida pela SIMPLES COMUNICAÇÃO</small></div></div>
+</footer>
+
+<a class="zap fixo" id="zap-geral" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3a.5.5 0 0 0 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3Z"/></svg>Falar com um consultor</a>
+
+<div class="lupa" id="lupa" role="dialog" aria-modal="true" aria-label="Fotos ampliadas">
+  <div class="lupa-topo"><span id="lupa-titulo"></span><button id="lupa-fechar" type="button">Fechar</button></div>
+  <div class="lupa-trilho" id="lupa-trilho"></div>
+  <div class="setas"><button id="ant" type="button" aria-label="Foto anterior">‹</button><button id="prox" type="button" aria-label="Próxima foto">›</button></div>
+  <div class="lupa-base"><a class="zap" id="lupa-zap" target="_blank" rel="noopener"></a></div>
+</div>
+
+<script id="dados" type="application/json">{"carros": [{"sc": "c1", "marca": "Chevrolet", "modelo": "Tracker RS", "versao": "1.2 turbo automático", "ano": 2026, "km": 9000, "combustivel": "Flex", "preco": 159900, "tipo": "suv", "extras": [], "desc": "Seminovo com garantia de fábrica, revisões em dia e manual completo.", "fotos": ["fotos/tracker.jpg"], "unico": true}, {"sc": "c2", "marca": "Volkswagen", "modelo": "Tera High", "versao": "1.0 TSI automático", "ano": 2026, "km": 0, "combustivel": "Flex", "preco": 142900, "tipo": "suv", "extras": [], "desc": "Zero km, pronta entrega. Aceitamos seu carro na troca.", "fotos": ["fotos/tera.jpg"]}, {"sc": "c3", "marca": "Hyundai", "modelo": "Creta Platinum", "versao": "1.0 turbo automático", "ano": 2025, "km": 18000, "combustivel": "Flex", "preco": 139900, "tipo": "suv", "extras": [], "desc": "Teto solar, bancos em couro e central multimídia. Revisões feitas na concessionária.", "fotos": ["fotos/creta.jpg"], "unico": true}, {"sc": "c4", "marca": "Jeep", "modelo": "Commander Overland", "versao": "2.0 turbodiesel automático", "ano": 2023, "km": 52000, "combustivel": "Diesel", "preco": 219900, "tipo": "suv", "extras": ["4x4", "7 lugares"], "desc": "Tração 4x4, sete lugares e pacote completo de assistências ao motorista. Laudo cautelar aprovado.", "fotos": ["fotos/commander.jpg"]}, {"sc": "c5", "marca": "Caoa Chery", "modelo": "Tiggo 8 Pro", "versao": "plug-in hybrid 1.5 turbo automático", "ano": 2024, "km": 28000, "combustivel": "Híbrido", "preco": 169900, "tipo": "suv", "extras": ["7 lugares"], "desc": "Híbrido plug-in com sete lugares e teto solar panorâmico. Bateria na garantia de fábrica.", "fotos": ["fotos/tiggo-8-pro.jpg"]}, {"sc": "c6", "marca": "Volkswagen", "modelo": "T-Cross Comfortline", "versao": "200 TSI automático", "ano": 2022, "km": 46000, "combustivel": "Flex", "preco": 119900, "tipo": "suv", "extras": [], "desc": "Revisado, pneus novos e manual completo.", "fotos": ["fotos/t-cross.jpg"]}, {"sc": "c7", "marca": "Land Rover", "modelo": "Range Rover Evoque", "versao": "Pure 2.0 Si4 automático", "ano": 2014, "km": 79000, "combustivel": "Gasolina", "preco": 109900, "tipo": "suv", "extras": [], "desc": "Interior em couro, bem conservado e com histórico de manutenção.", "fotos": ["fotos/evoque.jpg"]}, {"sc": "c8", "marca": "Jeep", "modelo": "Compass Longitude", "versao": "2.0 automático", "ano": 2019, "km": 64000, "combustivel": "Flex", "preco": 104900, "tipo": "suv", "extras": [], "desc": "Central multimídia, câmera de ré e revisões em dia.", "fotos": ["fotos/compass.jpg"]}, {"sc": "c9", "marca": "Honda", "modelo": "HR-V EXL", "versao": "1.8 automático", "ano": 2017, "km": 72000, "combustivel": "Flex", "preco": 92900, "tipo": "suv", "extras": [], "desc": "Econômico, espaçoso e com manutenção em dia.", "fotos": ["fotos/hr-v.jpg"]}], "fipe": {"c4": 232000, "c3": 146500, "c8": 109800}, "destaque": "c4", "linkBase": ""}</script>
+<script>(function(){
+const D = JSON.parse(document.getElementById('dados').textContent);
+const CARROS = D.carros, FIPE = D.fipe || {}, DEST = D.destaque, LINK_BASE = D.linkBase || '';
+const WHATS = '5585989109914';
+const grade = document.getElementById('grade');
+const ICONE_ZAP = document.querySelector('#zap-geral svg').outerHTML;
+const ICONE_PARTILHAR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8l7.4-4.4M8.3 13.2l7.4 4.4"/></svg>';
+const brl = v => 'R$ ' + v.toLocaleString('pt-BR');
+const kmTxt = v => v === 0 ? 'zero km' : v.toLocaleString('pt-BR') + ' km';
+const nome = c => [c.marca, c.modelo, c.ano].filter(Boolean).join(' ');
+const ehZero = c => c.km === 0;
+const ehEletrico = c => /el[eé]trico|h[ií]brido/i.test(c.combustivel || '');
+const norm = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+
+function linkZap(c, abertura){
+  let msg;
+  if (!c) msg = abertura || 'Oi! Vi a vitrine da Brisa Seminovos e quero falar com um consultor.';
+  else {
+    msg = (abertura || 'Oi! Vi na vitrine o') + ' ' + nome(c);
+    if (c.km != null) msg += ', ' + kmTxt(c.km);
+    msg += c.preco ? ', por ' + brl(c.preco) + '. Ainda está disponível?' : '. Qual é o preço e ainda está disponível?';
+    if (c.post) msg += '\n' + c.post;
+  }
+  return 'https://wa.me/' + WHATS + '?text=' + encodeURIComponent(msg);
+}
+document.getElementById('zap-geral').href = linkZap(null);
+document.getElementById('zap-contato').href = linkZap(null);
+document.getElementById('zap-pedido').href = linkZap(null, 'Oi! Não encontrei na vitrine o carro que procuro. Estou buscando: ');
+
+/* slugs para links diretos */
+const slugs = {}, usados = new Set();
+CARROS.forEach((c, i) => { let s = norm(nome(c)).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); while (usados.has(s)) s += '-2'; usados.add(s); slugs[i] = s; });
+
+function selos(c){
+  const s = [];
+  if (c.sc === DEST) s.push('<span class="s-oferta">Oferta especial</span>');
+  if (FIPE[c.sc] && c.preco < FIPE[c.sc]) s.push('<span class="s-fipe">Abaixo da FIPE</span>');
+  if (ehZero(c)) s.push('<span>Zero km</span>');
+  if (/el[eé]trico/i.test(c.combustivel)) s.push('<span>Elétrico</span>');
+  else if (/h[ií]brido/i.test(c.combustivel)) s.push('<span>Híbrido</span>');
+  if ((c.extras || []).includes('4x4')) s.push('<span>4x4</span>');
+  if ((c.extras || []).includes('7 lugares')) s.push('<span>7 lugares</span>');
+  if (c.unico) s.push('<span>Único dono</span>');
+  return s.slice(0, 3).join('');
+}
+function slidesHtml(c, i, lazy){
+  return c.fotos.map((src, k) => '<button class="slide" type="button" data-carro="' + i + '" data-foto="' + k + '" aria-label="Ampliar foto ' + (k + 1) + ' de ' + c.fotos.length + '"><img src="' + src + '" alt="Foto ' + (k + 1) + ' do ' + esc(nome(c)) + '"' + (lazy && k ? ' loading="lazy"' : '') + ' decoding="async"></button>').join('');
+}
+function card(c, i){
+  const n = c.fotos.length;
+  const pontos = n > 1 ? '<div class="pontos">' + c.fotos.map((_, k) => '<i class="' + (k ? '' : 'on') + '"></i>').join('') + '</div><span class="contador">1/' + n + '</span>' : '';
+  const placaChars = (c.ano ? c.ano + ' ' : '') + (c.km != null ? '<small>' + (ehZero(c) ? 'Zero km' : kmTxt(c.km)) + '</small>' : '');
+  const placa = '<div class="placa" aria-label="' + esc([c.ano ? 'Ano ' + c.ano : '', c.km != null ? kmTxt(c.km) : ''].filter(Boolean).join(', ')) + '"><span class="banda">BRASIL</span><span class="chars">' + placaChars + '</span></div>';
+  const ext = (c.extras || []).filter(x => x !== '4x4' && x !== '7 lugares');
+  const comb = c.combustivel && !norm(c.versao).includes(norm(c.combustivel)) ? c.combustivel.toLowerCase() : '';
+  let versao = [c.versao, comb, ...(c.extras || []).filter(x => x === '4x4' || x === '7 lugares'), ...ext].filter(Boolean).join(', ');
+  versao = versao.charAt(0).toUpperCase() + versao.slice(1);
+  const sl = selos(c);
+  return '<article class="carro" id="' + slugs[i] + '" data-i="' + i + '">' +
+    '<div class="fotos"><div class="trilho">' + slidesHtml(c, i, true) + '</div>' + pontos + '</div>' +
+    '<div class="corpo">' +
+    '<button class="partilhar" type="button" aria-label="Compartilhar ' + esc(nome(c)) + '">' + ICONE_PARTILHAR + '</button>' +
+    (sl ? '<div class="selos">' + sl + '</div>' : '') +
+    '<p class="fab">' + esc(c.marca) + '</p>' +
+    '<h2 class="modelo">' + esc(c.modelo) + '</h2>' +
+    '<p class="versao">' + esc(versao) + '</p>' + placa +
+    '<p class="preco">' + brl(c.preco) + '</p>' +
+    (c.desc ? '<p class="desc" id="desc-' + i + '">' + esc(c.desc) + '</p><button class="mais" type="button" aria-expanded="false" aria-controls="desc-' + i + '" hidden>Ler mais</button>' : '') +
+    '<div class="espaco"></div>' +
+    '<a class="zap" href="' + linkZap(c) + '" target="_blank" rel="noopener">' + ICONE_ZAP + 'Falar no WhatsApp sobre este carro</a>' +
+    '</div></article>';
+}
+
+/* monta todos os cartões uma vez e depois só esconde, ordena e mostra */
+grade.innerHTML = CARROS.map(card).join('') + '<div class="vazio" hidden><p>Nenhum carro nessa combinação agora. Fale com a gente e avisamos quando entrar um.</p><a class="zap" href="' + linkZap(null) + '" target="_blank" rel="noopener">' + ICONE_ZAP + 'Pedir aviso no WhatsApp</a></div>';
+const elCarro = [...grade.querySelectorAll('.carro')];
+const vazio = grade.querySelector('.vazio');
+
+let filtroTipo = 'todos', filtroPreco = 'todos';
+const busca = document.getElementById('busca');
+function lista(){
+  let r = CARROS.map((c, i) => ({ c, i }));
+  if (filtroTipo === 'hatch-sedan') r = r.filter(x => x.c.tipo === 'hatch' || x.c.tipo === 'sedan');
+  else if (filtroTipo === 'eletrico') r = r.filter(x => ehEletrico(x.c));
+  else if (filtroTipo === 'zero') r = r.filter(x => ehZero(x.c));
+  else if (filtroTipo !== 'todos') r = r.filter(x => x.c.tipo === filtroTipo);
+  if (filtroPreco !== 'todos') { const [a, b] = filtroPreco.split('-').map(Number); r = r.filter(x => x.c.preco >= a && x.c.preco < b); }
+  const q = norm(busca && busca.value).trim();
+  if (q) { const termos = q.split(/\s+/); r = r.filter(x => { const t = norm([x.c.marca, x.c.modelo, x.c.versao, x.c.ano, x.c.combustivel, (x.c.extras || []).join(' '), x.c.tipo === 'sedan' ? 'seda sedan' : x.c.tipo, ehZero(x.c) ? 'zero 0km' : ''].join(' ')); return termos.every(w => t.includes(w)); }); }
+  const o = document.getElementById('ordem').value;
+  if (o === 'preco-desc') r.sort((x, y) => y.c.preco - x.c.preco);
+  if (o === 'preco-asc') r.sort((x, y) => x.c.preco - y.c.preco);
+  if (o === 'ano-desc') r.sort((x, y) => ((y.c.ano || 0) - (x.c.ano || 0)) || (x.c.km - y.c.km));
+  if (o === 'km-asc') r.sort((x, y) => x.c.km - y.c.km);
+  return r;
+}
+function render(){
+  const r = lista();
+  document.getElementById('contagem').textContent = r.length === 1 ? '1 carro' : r.length + ' carros';
+  elCarro.forEach(el => { el.hidden = true; });
+  r.forEach(x => { const el = elCarro[x.i]; el.hidden = false; grade.appendChild(el); });
+  vazio.hidden = r.length > 0; grade.appendChild(vazio);
+  grade.querySelectorAll('.carro:not([hidden]) .desc').forEach(d => { const b = d.nextElementSibling; if (b && !d.classList.contains('aberta')) b.hidden = !(d.scrollHeight > d.clientHeight + 2); });
+}
+function chips(id, setter){
+  document.getElementById(id).addEventListener('click', e => {
+    const b = e.target.closest('.chip'); if (!b) return;
+    document.querySelectorAll('#' + id + ' .chip').forEach(x => x.setAttribute('aria-pressed', x === b));
+    setter(b); render();
+  });
+}
+chips('f-tipo', b => { filtroTipo = b.dataset.tipo; });
+chips('f-preco', b => { filtroPreco = b.dataset.preco; });
+document.getElementById('ordem').addEventListener('change', render);
+if (busca) busca.addEventListener('input', render);
+
+/* carrossel de cada cartão: pontos, contador e setas */
+function ligaCarrossel(f){
+  const t = f.querySelector('.trilho'); if (!t || t.children.length < 2) return;
+  if (!f.querySelector('.seta-card')) f.insertAdjacentHTML('beforeend', '<button class="seta-card ant" type="button" aria-label="Foto anterior" hidden>‹</button><button class="seta-card prox" type="button" aria-label="Próxima foto">›</button>');
+  const ant = f.querySelector('.seta-card.ant'), prox = f.querySelector('.seta-card.prox'), ct = f.querySelector('.contador'), pts = f.querySelectorAll('.pontos i');
+  const at = () => { const k = Math.round(t.scrollLeft / t.clientWidth), n = t.children.length; ant.hidden = k <= 0; prox.hidden = k >= n - 1; if (ct) ct.textContent = (k + 1) + '/' + n; pts.forEach((p, j) => p.classList.toggle('on', j === k)); };
+  t.addEventListener('scroll', at, { passive: true });
+  ant.addEventListener('click', e => { e.stopPropagation(); t.scrollBy({ left: -t.clientWidth, behavior: 'smooth' }); });
+  prox.addEventListener('click', e => { e.stopPropagation(); t.scrollBy({ left: t.clientWidth, behavior: 'smooth' }); });
+  at();
+}
+grade.querySelectorAll('.fotos').forEach(ligaCarrossel);
+
+/* fotos ampliadas */
+const lupa = document.getElementById('lupa'), lt = document.getElementById('lupa-trilho');
+let ultimoFoco = null;
+function abrir(i, k){
+  const c = CARROS[i];
+  ultimoFoco = document.activeElement;
+  lt.innerHTML = c.fotos.map((src, j) => '<div class="lupa-slide"><img src="' + src + '" alt="Foto ' + (j + 1) + ' do ' + esc(nome(c)) + '"></div>').join('');
+  document.getElementById('lupa-titulo').textContent = nome(c);
+  const z = document.getElementById('lupa-zap');
+  z.href = linkZap(c); z.innerHTML = ICONE_ZAP + 'Falar no WhatsApp sobre este carro';
+  lupa.classList.add('aberta'); document.body.style.overflow = 'hidden';
+  requestAnimationFrame(() => { lt.scrollLeft = k * lt.clientWidth; });
+  document.getElementById('lupa-fechar').focus();
+}
+function fechar(){ lupa.classList.remove('aberta'); document.body.style.overflow = ''; lt.innerHTML = ''; if (ultimoFoco) ultimoFoco.focus(); }
+function mover(d){ lt.scrollBy({ left: d * lt.clientWidth, behavior: 'smooth' }); }
+lt.addEventListener('click', e => {
+  const alvo = e.target.closest('.lupa-slide > *'); if (!alvo) return;
+  const r = alvo.getBoundingClientRect();
+  alvo.style.transformOrigin = ((e.clientX - r.left) / r.width * 100).toFixed(1) + '% ' + ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%';
+  alvo.classList.toggle('zoom');
+});
+document.getElementById('lupa-fechar').addEventListener('click', fechar);
+document.getElementById('ant').addEventListener('click', () => mover(-1));
+document.getElementById('prox').addEventListener('click', () => mover(1));
+document.addEventListener('keydown', e => {
+  if (!lupa.classList.contains('aberta')) return;
+  if (e.key === 'Escape') fechar();
+  if (e.key === 'ArrowRight') mover(1);
+  if (e.key === 'ArrowLeft') mover(-1);
+});
+
+/* compartilhar */
+const avisoEl = document.createElement('div'); avisoEl.className = 'aviso-copiado'; avisoEl.setAttribute('role', 'status'); document.body.appendChild(avisoEl);
+function aviso(t){ avisoEl.textContent = t; avisoEl.classList.add('on'); clearTimeout(aviso.t); aviso.t = setTimeout(() => avisoEl.classList.remove('on'), 2200); }
+grade.addEventListener('click', async e => {
+  const m = e.target.closest('.mais');
+  if (m) { const d = m.previousElementSibling, ab = d.classList.toggle('aberta'); m.textContent = ab ? 'Ler menos' : 'Ler mais'; m.setAttribute('aria-expanded', ab); return; }
+  const b = e.target.closest('.partilhar');
+  if (b) {
+    const el = b.closest('.carro'), c = CARROS[+el.dataset.i];
+    const url = (LINK_BASE || location.href.split('#')[0]) + '#' + el.id;
+    const texto = nome(c) + ' por ' + brl(c.preco) + ' na Brisa Seminovos';
+    if (navigator.share) { try { await navigator.share({ title: nome(c), text: texto, url }); return; } catch (err) { if (err && err.name === 'AbortError') return; } }
+    let ok = false;
+    try { await navigator.clipboard.writeText(url); ok = true; }
+    catch (err) { const t = document.createElement('textarea'); t.value = url; document.body.appendChild(t); t.select(); try { ok = document.execCommand('copy'); } catch (e2) {} t.remove(); }
+    aviso(ok ? 'Link do carro copiado' : 'Não deu para copiar o link');
+    return;
+  }
+  const s = e.target.closest('.slide'); if (s) abrir(+s.dataset.carro, +s.dataset.foto);
+});
+
+/* oferta especial */
+(function(){
+  const i = CARROS.findIndex(c => c.sc === DEST); if (i < 0) return;
+  const c = CARROS[i], f = document.getElementById('dest-fotos'), t = f.querySelector('.trilho');
+  t.innerHTML = slidesHtml(c, i, true);
+  f.querySelector('.pontos').innerHTML = c.fotos.map((_, k) => '<i class="' + (k ? '' : 'on') + '"></i>').join('');
+  f.querySelector('.contador').textContent = '1/' + c.fotos.length;
+  ligaCarrossel(f);
+  t.addEventListener('click', e => { const s = e.target.closest('.slide'); if (s) abrir(i, +s.dataset.foto); });
+  document.querySelector('#destaque .dest-ver').addEventListener('click', () => abrir(i, 0));
+  document.getElementById('dest-zap').href = linkZap(c, 'Oi! Vi a oferta especial da vitrine:');
+})();
+
+/* link direto para um carro (#slug) */
+function abrirHash(){
+  const id = decodeURIComponent(location.hash.slice(1)); if (!id) return;
+  let el = document.getElementById(id); if (!el || !el.classList.contains('carro')) return;
+  if (el.hidden) {
+    filtroTipo = 'todos'; filtroPreco = 'todos'; if (busca) busca.value = '';
+    document.querySelectorAll('#f-tipo .chip, #f-preco .chip').forEach(x => x.setAttribute('aria-pressed', x.dataset.tipo === 'todos' || x.dataset.preco === 'todos'));
+    render();
+  }
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  el.classList.add('realce'); setTimeout(() => el.classList.remove('realce'), 2600);
+}
+window.addEventListener('hashchange', abrirHash);
+render();
+setTimeout(abrirHash, 250);
+})();
+</script>
+</body>
+</html>
